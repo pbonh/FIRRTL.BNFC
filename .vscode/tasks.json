@@ -8,7 +8,7 @@
     {
       "label": "Build Grammar(C++)",
       "type": "shell",
-      "command": "bnfc -cpp -m grammar/FIRRTL.cf",
+      "command": "bnfc --cpp -m grammar/FIRRTL.cf",
       "group": "build",
       "presentation": {
           "focus": true,
