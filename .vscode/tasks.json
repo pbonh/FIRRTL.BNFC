@@ -6,68 +6,15 @@
   },
   "tasks": [
     {
-      "label": "Build",
+      "label": "Build Grammar(C++)",
       "type": "shell",
-      "command": "cabal v2-build",
+      "command": "bnfc -cpp -m grammar/FIRRTL.cf",
       "group": "build",
       "presentation": {
           "focus": true,
           "panel": "dedicated"
       },
       "problemMatcher": []
-    },
-    {
-      "label": "Install",
-      "type": "shell",
-      "command": "cabal install",
-      "group": {
-          "kind": "build",
-          "isDefault": true
-      },
-      "presentation": {
-          "focus": true,
-          "panel": "dedicated"
-      },
-      "problemMatcher": []
-    },
-    {
-        "label": "Generate Hoogle database",
-        "type": "shell",
-        "command": "stack hoogle --rebuild",
-        "presentation": {
-            "focus": true,
-            "panel": "dedicated"
-        },
-        "problemMatcher": []
-    },
-    {
-        "label": "Start Hoogle server",
-        "type": "shell",
-        "command": "stack hoogle --server",
-        "presentation": {
-            "reveal": "never",
-            "panel": "dedicated"
-        },
-        "problemMatcher": [],
-        "runOptions": {
-            "runOn": "folderOpen"
-        }
-    },
-    {
-        "label": "Cabal Test w/ Debugging/Logging",
-        "type": "shell",
-        "command": "LSP_TEST_LOG_MESSAGES=1 LSP_TEST_LOG_STDERR=1 cabal test",
-        "presentation": {
-            "focus": true,
-            "panel": "dedicated"
-        },
-        "problemMatcher": []
-    },
-    {
-      "isBackground": true,
-      "type": "shell",
-      "label": "Watch",
-      "command": "stack build --test --no-run-tests --file-watch"
     }
   ]
 }
