@@ -1,6 +1,6 @@
-ECircuit. circuit ::= circuit id ":" JinfoK? "(" (module)* ")" ;
-EModule. module ::= module id ":" JinfoK? "(" (port)* stmt ")"
-    | extmodule id ":" JinfoK? "(" (port)* ")" ;
+ECircuit. circuit ::= circuit id ":" JinfoK? "(" [module] ")" ;
+EModule. module ::= module id ":" JinfoK? "(" [port] stmt ")"
+    | extmodule id ":" JinfoK? "(" [port] ")" ;
 EPort. port ::= dir id ":" type JinfoK? ;
 EDir. dir ::= input | output ;
 EType. type ::= UIntJ<int>K?
@@ -8,7 +8,7 @@ EType. type ::= UIntJ<int>K?
     | FixedJ<int>K?J<<int>>K?
     | Clock
     | AnalogJ<int>K?
-    | "{" (field)* "}"
+    | "{" [field] "}"
     | type "[" int "]" ;
 EField. field ::= JflipK? id ":" type ;
 EStmt. stmt ::= wire id ":" type JinfoK?
@@ -19,20 +19,20 @@ EStmt. stmt ::= wire id ":" type JinfoK?
         read-latency "=>" int
         write-latency "=>" int
         read-under-write "=>" ruw
-        (reader "=>" id)*
-        (writer "=>" id)*
-        (readwriter "=>" id)* ")"
+        [reader "=>" id]
+        [writer "=>" id]
+        [readwriter "=>" id] ")"
     | inst id of id JinfoK?
     | node id "=" exp JinfoK?
     | exp "<=" exp JinfoK?
     | exp "<-" exp JinfoK?
     | exp is invalid JinfoK?
-    | attach "(" (exp)* ")" JinfoK?
+    | attach "(" [exp] ")" JinfoK?
     | when exp ":" JinfoK? stmt Jelse ":" stmtK?
     | stop "(" exp, exp, int ")" J ":" idK? JinfoK?
-    | printf "(" exp, exp, string, (exp)* ")" J ":" idK? JinfoK?
+    | printf "(" exp, exp, string, [exp] ")" J ":" idK? JinfoK?
     | skip JinfoK?
-    | "(" (stmt)* ")" ;
+    | "(" [stmt] ")" ;
 ERuw. ruw ::= old | new | undefined ;
 EInfo. info ::= "@" "[" string "]" ;
 EExp. exp ::= UIntJ<int>K? "(" int ")"
@@ -45,7 +45,7 @@ EExp. exp ::= UIntJ<int>K? "(" int ")"
     | exp "[" exp "]"
     | mux "(" exp, exp, exp ")"
     | validif "(" exp, exp ")"
-    | primop "(" (exp)* "," (int)* ")" ;
+    | primop "(" [exp] "," [int] ")" ;
 EPrimop. primop ::= add
     | sub
     | mul
