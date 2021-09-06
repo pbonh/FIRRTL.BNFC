@@ -1,6 +1,6 @@
-circuit = circuit id : JinfoK? (JmoduleK...) 
-module = module id : JinfoK? (JportK... stmt) 
-| extmodule id : JinfoK? (JportK...) 
+circuit = circuit id : JinfoK? "(" JmoduleK... ")" 
+module = module id : JinfoK? "(" JportK... stmt ")" 
+| extmodule id : JinfoK? "(" JportK... ")" 
 port = dir id : type JinfoK? 
 dir = input | output 
 type = UIntJ<int>K? 
@@ -12,8 +12,8 @@ type = UIntJ<int>K?
 | type[int] 
 field = JflipK? id : type 
 stmt = wire id : type JinfoK? 
-| reg id : type exp J(with: {reset => (exp, exp)})K? JinfoK? 
-| mem id : JinfoK? ( 
+| reg id : type exp J "(" with: {reset => "(" exp, exp ")" } ")" K? JinfoK? 
+| mem id : JinfoK? "(" 
 data-type => type
 depth => int
 read-latency => int
@@ -21,31 +21,31 @@ write-latency => int
 read-under-write => ruw
 Jreader => idK...
 Jwriter => idK...
-Jreadwriter => idK...)
+Jreadwriter => idK... ")"
 | inst id of id JinfoK? 
 | node id = exp JinfoK? 
 | exp <= exp JinfoK? 
 | exp <- exp JinfoK? 
 | exp is invalid JinfoK? 
-| attach(JexpK...) JinfoK? 
+| attach "(" JexpK... ")" JinfoK? 
 | when exp : JinfoK? stmt Jelse : stmtK? 
-| stop(exp, exp, int) J:idK? JinfoK? 
-| printf(exp, exp, string, JexpK...) J:idK? JinfoK? 
+| stop "(" exp, exp, int ")" J:idK? JinfoK? 
+| printf "(" exp, exp, string, JexpK... ")" J:idK? JinfoK? 
 | skip JinfoK? 
-| (JstmtK...) 
+| "(" JstmtK... ")" 
 ruw = old | new | undefined 
 info = @[string] 
-exp = UIntJ<int>K?(int) 
-| UIntJ<int>K?(string) 
-| SIntJ<int>K?(int) 
-| SIntJ<int>K?(string) 
+exp = UIntJ<int>K? "(" int ")" 
+| UIntJ<int>K? "(" string ")" 
+| SIntJ<int>K? "(" int ")" 
+| SIntJ<int>K? "(" string ")" 
 | id 
 | exp.id 
 | exp[int] 
 | exp[exp] 
-| mux(exp, exp, exp) 
-| validif(exp, exp) 
-| primop(JexpK..., JintK...) 
+| mux "(" exp, exp, exp ")" 
+| validif "(" exp, exp ")" 
+| primop "(" JexpK..., JintK... ")" 
 primop = add 
 | sub 
 | mul 
