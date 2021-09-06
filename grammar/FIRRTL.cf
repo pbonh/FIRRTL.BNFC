@@ -1,17 +1,17 @@
-ECircuit. circuit = circuit id ":" JinfoK? "(" JmoduleK... ")" ;
-EModule. module = module id ":" JinfoK? "(" JportK... stmt ")"
+ECircuit. circuit ::= circuit id ":" JinfoK? "(" JmoduleK... ")" ;
+EModule. module ::= module id ":" JinfoK? "(" JportK... stmt ")"
     | extmodule id ":" JinfoK? "(" JportK... ")" ;
-EPort. port = dir id ":" type JinfoK? ;
-EDir. dir = input | output ;
-EType. type = UIntJ<int>K?
+EPort. port ::= dir id ":" type JinfoK? ;
+EDir. dir ::= input | output ;
+EType. type ::= UIntJ<int>K?
     | SIntJ<int>K?
     | FixedJ<int>K?J<<int>>K?
     | Clock
     | AnalogJ<int>K?
     | "{" JfieldK... "}"
     | type "[" int "]" ;
-EField. field = JflipK? id ":" type ;
-EStmt. stmt = wire id ":" type JinfoK?
+EField. field ::= JflipK? id ":" type ;
+EStmt. stmt ::= wire id ":" type JinfoK?
     | reg id ":" type exp J "(" with ":" "{" reset => "(" exp, exp ")" "}" ")" K? JinfoK?
     | mem id ":" JinfoK? "(" 
         data-type "=>" type
@@ -33,9 +33,9 @@ EStmt. stmt = wire id ":" type JinfoK?
     | printf "(" exp, exp, string, JexpK... ")" J ":" idK? JinfoK?
     | skip JinfoK?
     | "(" JstmtK... ")" ;
-ERuw. ruw = old | new | undefined ;
-EInfo. info = "@" "[" string "]" ;
-EExp. exp = UIntJ<int>K? "(" int ")"
+ERuw. ruw ::= old | new | undefined ;
+EInfo. info ::= "@" "[" string "]" ;
+EExp. exp ::= UIntJ<int>K? "(" int ")"
     | UIntJ<int>K? "(" string ")"
     | SIntJ<int>K? "(" int ")"
     | SIntJ<int>K? "(" string ")"
@@ -46,7 +46,7 @@ EExp. exp = UIntJ<int>K? "(" int ")"
     | mux "(" exp, exp, exp ")"
     | validif "(" exp, exp ")"
     | primop "(" JexpK..., JintK... ")" ;
-EPrimop. primop = add
+EPrimop. primop ::= add
     | sub
     | mul
     | div
