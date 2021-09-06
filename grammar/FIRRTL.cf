@@ -9,7 +9,7 @@ type = UIntJ<int>K?
 | Clock 
 | AnalogJ<int>K? 
 | "{" JfieldK... "}" 
-| type[int] 
+| type "[" int "]" 
 field = JflipK? id : type 
 stmt = wire id : type JinfoK? 
 | reg id : type exp J "(" with: "{" reset => "(" exp, exp ")" "}" ")" K? JinfoK? 
@@ -34,15 +34,15 @@ Jreadwriter => idK... ")"
 | skip JinfoK? 
 | "(" JstmtK... ")" 
 ruw = old | new | undefined 
-info = @[string] 
+info = @ "[" string "]" 
 exp = UIntJ<int>K? "(" int ")" 
 | UIntJ<int>K? "(" string ")" 
 | SIntJ<int>K? "(" int ")" 
 | SIntJ<int>K? "(" string ")" 
 | id 
 | exp.id 
-| exp[int] 
-| exp[exp] 
+| exp "[" int "]" 
+| exp "[" exp "]" 
 | mux "(" exp, exp, exp ")" 
 | validif "(" exp, exp ")" 
 | primop "(" JexpK..., JintK... ")" 
