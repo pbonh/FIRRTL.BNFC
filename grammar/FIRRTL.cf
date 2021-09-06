@@ -8,11 +8,11 @@ type = UIntJ<int>K?
 | FixedJ<int>K?J<<int>>K? 
 | Clock 
 | AnalogJ<int>K? 
-| {JfieldK...} 
+| "{" JfieldK... "}" 
 | type[int] 
 field = JflipK? id : type 
 stmt = wire id : type JinfoK? 
-| reg id : type exp J "(" with: {reset => "(" exp, exp ")" } ")" K? JinfoK? 
+| reg id : type exp J "(" with: "{" reset => "(" exp, exp ")" "}" ")" K? JinfoK? 
 | mem id : JinfoK? "(" 
 data-type => type
 depth => int
