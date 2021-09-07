@@ -78,3 +78,6 @@ EPrimop. primop ::= "add"
     | "bits"
     | "head"
     | "tail" ;
+Eid. id ::= Ident;
+Estring. string ::= String;
+Eint. int ::= Integer;
