@@ -1,52 +1,52 @@
-ECircuit. circuit ::= "circuit" id ":" (info)? "(" [module] ")" ;
-EModule. module ::= "module" id ":" (info)? "(" [port] stmt ")"
-    | "extmodule" id ":" (info)? "(" [port] ")" ;
-EPort. port ::= dir id ":" type (info)? ;
-EDir. dir ::= "input" | "output" ;
-EType. type ::= "UInt" ("<" int ">")?
-    | "SInt" ("<" int ">")?
-    | "Fixed" ("<" int ">")? ("<<" int ">>")?
+ECircuit. Circuit ::= "circuit" Id ":" (Info)? "(" [Module] ")" ;
+EModule. Module ::= "module" Id ":" (Info)? "(" [Port] Stmt ")"
+    | "extmodule" Id ":" (Info)? "(" [Port] ")" ;
+EPort. Port ::= Dir Id ":" Type (Info)? ;
+EDir. Dir ::= "input" | "output" ;
+EType. Type ::= "UInt" ("<" Int ">")?
+    | "SInt" ("<" Int ">")?
+    | "Fixed" ("<" Int ">")? ("<<" Int ">>")?
     | "Clock"
-    | "Analog" ("<" int ">")?
-    | "{" [field] "}"
-    | type "[" int "]" ;
-EField. field ::= ("flip")? id ":" type ;
-EStmt. stmt ::= "wire" id ":" type (info)?
-    | "reg" id ":" type exp ("(" "with" ":" "{" "reset" "=>" "(" exp "," exp ")" "}" ")")? (info)?
-    | "mem" id ":" (info)? "(" 
-        "data-type" "=>" type
-        "depth" "=>" int
-        "read-latency" "=>" int
-        "write-latency" "=>" int
-        "read-under-write" "=>" ruw
-        ["reader" "=>" id]
-        ["writer" "=>" id]
-        ["readwriter" "=>" id] ")"
-    | "inst" id "of" id (info)?
-    | "node" id "=" exp (info)?
-    | exp "<=" exp (info)?
-    | exp "<-" exp (info)?
-    | exp "is" "invalid" (info)?
-    | "attach" "(" [exp] ")" (info)?
-    | "when" exp ":" (info)? stmt ("else" ":" stmt)?
-    | "stop" "(" exp "," exp "," int ")" ( ":" id)? (info)?
-    | "printf" "(" exp "," exp "," string "," [exp] ")" ( ":" id)? (info)?
-    | "skip" (info)?
-    | "(" [stmt] ")" ;
-ERuw. ruw ::= "old" | "new" | "undefined" ;
-EInfo. info ::= "@" "[" string "]" ;
-EExp. exp ::= "UInt" ("<" int ">")? "(" int ")"
-    | "UInt" ("<" int ">")? "(" string ")"
-    | "SInt" ("<" int ">")? "(" int ")"
-    | "SInt" ("<" int ">")? "(" string ")"
-    | id
-    | exp "." id
-    | exp "[" int "]"
-    | exp "[" exp "]"
-    | "mux" "(" exp "," exp "," exp ")"
-    | "validif" "(" exp "," exp ")"
-    | primop "(" [exp] "," [int] ")" ;
-EPrimop. primop ::= "add"
+    | "Analog" ("<" Int ">")?
+    | "{" [Field] "}"
+    | Type "[" Int "]" ;
+EField. Field ::= ("flip")? Id ":" Type ;
+EStmt. Stmt ::= "wire" Id ":" Type (Info)?
+    | "reg" Id ":" Type Exp ("(" "with" ":" "{" "reset" "=>" "(" Exp "," Exp ")" "}" ")")? (Info)?
+    | "mem" Id ":" (Info)? "(" 
+        "data-type" "=>" Type
+        "depth" "=>" Int
+        "read-latency" "=>" Int
+        "write-latency" "=>" Int
+        "read-under-write" "=>" Ruw
+        ["reader" "=>" Id]
+        ["writer" "=>" Id]
+        ["readwriter" "=>" Id] ")"
+    | "inst" Id "of" Id (Info)?
+    | "node" Id "=" Exp (Info)?
+    | Exp "<=" Exp (Info)?
+    | Exp "<-" Exp (Info)?
+    | Exp "is" "invalid" (Info)?
+    | "attach" "(" [Exp] ")" (Info)?
+    | "when" Exp ":" (Info)? Stmt ("else" ":" Stmt)?
+    | "stop" "(" Exp "," Exp "," Int ")" ( ":" Id)? (Info)?
+    | "printf" "(" Exp "," Exp "," SString "," [Exp] ")" ( ":" Id)? (Info)?
+    | "skip" (Info)?
+    | "(" [Stmt] ")" ;
+ERuw. Ruw ::= "old" | "new" | "undefined" ;
+EInfo. Info ::= "@" "[" SString "]" ;
+EExp. Exp ::= "UInt" ("<" Int ">")? "(" Int ")"
+    | "UInt" ("<" Int ">")? "(" SString ")"
+    | "SInt" ("<" Int ">")? "(" Int ")"
+    | "SInt" ("<" Int ">")? "(" SString ")"
+    | Id
+    | Exp "." Id
+    | Exp "[" Int "]"
+    | Exp "[" Exp "]"
+    | "mux" "(" Exp "," Exp "," Exp ")"
+    | "validif" "(" Exp "," Exp ")"
+    | Primop "(" [Exp] "," [Int] ")" ;
+EPrimop. Primop ::= "add"
     | "sub"
     | "mul"
     | "div"
@@ -78,6 +78,6 @@ EPrimop. primop ::= "add"
     | "bits"
     | "head"
     | "tail" ;
-Eid. id ::= Ident;
-Estring. string ::= String;
-Eint. int ::= Integer;
+Eid. Id ::= Ident;
+Estring. SString ::= String;
+Eint. Int ::= Integer;
