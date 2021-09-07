@@ -37,6 +37,20 @@
           "panel": "dedicated"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Build Lexer/Parser",
+      "type": "shell",
+      "command": "make",
+      "options": {
+        "cwd": "${workspaceFolder}/parser-${input:parserLang}"
+      },
+      "group": "build",
+      "presentation": {
+          "focus": true,
+          "panel": "dedicated"
+      },
+      "problemMatcher": []
     }
   ],
   "inputs": [
