@@ -1,19 +1,19 @@
-ECircuit. circuit ::= circuit id ":" JinfoK? "(" [module] ")" ;
-EModule. module ::= module id ":" JinfoK? "(" [port] stmt ")"
-    | extmodule id ":" JinfoK? "(" [port] ")" ;
-EPort. port ::= dir id ":" type JinfoK? ;
+ECircuit. circuit ::= circuit id ":" (info)? "(" [module] ")" ;
+EModule. module ::= module id ":" (info)? "(" [port] stmt ")"
+    | extmodule id ":" (info)? "(" [port] ")" ;
+EPort. port ::= dir id ":" type (info)? ;
 EDir. dir ::= input | output ;
-EType. type ::= UIntJ<int>K?
-    | SIntJ<int>K?
-    | FixedJ<int>K?J<<int>>K?
+EType. type ::= UInt ("<" int ">")?
+    | SInt ("<" int ">")?
+    | Fixed ("<" int ">")? ("<<" int ">>")?
     | Clock
-    | AnalogJ<int>K?
+    | Analog ("<" int ">")?
     | "{" [field] "}"
     | type "[" int "]" ;
-EField. field ::= JflipK? id ":" type ;
-EStmt. stmt ::= wire id ":" type JinfoK?
-    | reg id ":" type exp J "(" with ":" "{" reset => "(" exp, exp ")" "}" ")" K? JinfoK?
-    | mem id ":" JinfoK? "(" 
+EField. field ::= (flip)? id ":" type ;
+EStmt. stmt ::= wire id ":" type (info)?
+    | reg id ":" type exp ("(" with ":" "{" reset => "(" exp, exp ")" "}" ")")? (info)?
+    | mem id ":" (info)? "(" 
         data-type "=>" type
         depth "=>" int
         read-latency "=>" int
@@ -22,23 +22,23 @@ EStmt. stmt ::= wire id ":" type JinfoK?
         [reader "=>" id]
         [writer "=>" id]
         [readwriter "=>" id] ")"
-    | inst id of id JinfoK?
-    | node id "=" exp JinfoK?
-    | exp "<=" exp JinfoK?
-    | exp "<-" exp JinfoK?
-    | exp is invalid JinfoK?
-    | attach "(" [exp] ")" JinfoK?
-    | when exp ":" JinfoK? stmt Jelse ":" stmtK?
-    | stop "(" exp, exp, int ")" J ":" idK? JinfoK?
-    | printf "(" exp, exp, string, [exp] ")" J ":" idK? JinfoK?
-    | skip JinfoK?
+    | inst id of id (info)?
+    | node id "=" exp (info)?
+    | exp "<=" exp (info)?
+    | exp "<-" exp (info)?
+    | exp is invalid (info)?
+    | attach "(" [exp] ")" (info)?
+    | when exp ":" (info)? stmt (else ":" stmt)?
+    | stop "(" exp, exp, int ")" ( ":" id)? (info)?
+    | printf "(" exp, exp, string, [exp] ")" ( ":" id)? (info)?
+    | skip (info)?
     | "(" [stmt] ")" ;
 ERuw. ruw ::= old | new | undefined ;
 EInfo. info ::= "@" "[" string "]" ;
-EExp. exp ::= UIntJ<int>K? "(" int ")"
-    | UIntJ<int>K? "(" string ")"
-    | SIntJ<int>K? "(" int ")"
-    | SIntJ<int>K? "(" string ")"
+EExp. exp ::= UInt ("<" int ">")? "(" int ")"
+    | UInt ("<" int ">")? "(" string ")"
+    | SInt ("<" int ">")? "(" int ")"
+    | SInt ("<" int ">")? "(" string ")"
     | id
     | exp.id
     | exp "[" int "]"
