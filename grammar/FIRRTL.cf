@@ -12,7 +12,7 @@ EType. type ::= "UInt" ("<" int ">")?
     | type "[" int "]" ;
 EField. field ::= ("flip")? id ":" type ;
 EStmt. stmt ::= "wire" id ":" type (info)?
-    | "reg" id ":" type exp ("(" "with" ":" "{" "reset" => "(" exp, exp ")" "}" ")")? (info)?
+    | "reg" id ":" type exp ("(" "with" ":" "{" "reset" "=>" "(" exp "," exp ")" "}" ")")? (info)?
     | "mem" id ":" (info)? "(" 
         "data-type" "=>" type
         "depth" "=>" int
@@ -29,8 +29,8 @@ EStmt. stmt ::= "wire" id ":" type (info)?
     | exp "is" "invalid" (info)?
     | "attach" "(" [exp] ")" (info)?
     | "when" exp ":" (info)? stmt ("else" ":" stmt)?
-    | "stop" "(" exp, exp, int ")" ( ":" id)? (info)?
-    | "printf" "(" exp, exp, string, [exp] ")" ( ":" id)? (info)?
+    | "stop" "(" exp "," exp "," int ")" ( ":" id)? (info)?
+    | "printf" "(" exp "," exp "," string "," [exp] ")" ( ":" id)? (info)?
     | "skip" (info)?
     | "(" [stmt] ")" ;
 ERuw. ruw ::= "old" | "new" | "undefined" ;
@@ -40,11 +40,11 @@ EExp. exp ::= "UInt" ("<" int ">")? "(" int ")"
     | "SInt" ("<" int ">")? "(" int ")"
     | "SInt" ("<" int ">")? "(" string ")"
     | id
-    | exp.id
+    | exp "." id
     | exp "[" int "]"
     | exp "[" exp "]"
-    | "mux" "(" exp, exp, exp ")"
-    | "validif" "(" exp, exp ")"
+    | "mux" "(" exp "," exp "," exp ")"
+    | "validif" "(" exp "," exp ")"
     | primop "(" [exp] "," [int] ")" ;
 EPrimop. primop ::= "add"
     | "sub"
