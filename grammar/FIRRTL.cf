@@ -1,9 +1,9 @@
 ECircuit. Circuit ::= "circuit" Id ":" (Info)? "(" [Module] ")" ;
-EModule. Module ::= "module" Id ":" (Info)? "(" [Port] Stmt ")"
+rules Module ::= "module" Id ":" (Info)? "(" [Port] Stmt ")"
     | "extmodule" Id ":" (Info)? "(" [Port] ")" ;
 EPort. Port ::= Dir Id ":" Type (Info)? ;
-EDir. Dir ::= "input" | "output" ;
-EType. Type ::= "UInt" ("<" Int ">")?
+rules Dir ::= "input" | "output" ;
+rules Type ::= "UInt" ("<" Int ">")?
     | "SInt" ("<" Int ">")?
     | "Fixed" ("<" Int ">")? ("<<" Int ">>")?
     | "Clock"
@@ -11,7 +11,7 @@ EType. Type ::= "UInt" ("<" Int ">")?
     | "{" [Field] "}"
     | Type "[" Int "]" ;
 EField. Field ::= ("flip")? Id ":" Type ;
-EStmt. Stmt ::= "wire" Id ":" Type (Info)?
+rules Stmt ::= "wire" Id ":" Type (Info)?
     | "reg" Id ":" Type Exp ("(" "with" ":" "{" "reset" "=>" "(" Exp "," Exp ")" "}" ")")? (Info)?
     | "mem" Id ":" (Info)? "(" 
         "data-type" "=>" Type
@@ -33,9 +33,9 @@ EStmt. Stmt ::= "wire" Id ":" Type (Info)?
     | "printf" "(" Exp "," Exp "," SString "," [Exp] ")" ( ":" Id)? (Info)?
     | "skip" (Info)?
     | "(" [Stmt] ")" ;
-ERuw. Ruw ::= "old" | "new" | "undefined" ;
+rules Ruw ::= "old" | "new" | "undefined" ;
 EInfo. Info ::= "@" "[" SString "]" ;
-EExp. Exp ::= "UInt" ("<" Int ">")? "(" Int ")"
+rules Exp ::= "UInt" ("<" Int ">")? "(" Int ")"
     | "UInt" ("<" Int ">")? "(" SString ")"
     | "SInt" ("<" Int ">")? "(" Int ")"
     | "SInt" ("<" Int ">")? "(" SString ")"
@@ -46,7 +46,7 @@ EExp. Exp ::= "UInt" ("<" Int ">")? "(" Int ")"
     | "mux" "(" Exp "," Exp "," Exp ")"
     | "validif" "(" Exp "," Exp ")"
     | Primop "(" [Exp] "," [Int] ")" ;
-EPrimop. Primop ::= "add"
+rules Primop ::= "add"
     | "sub"
     | "mul"
     | "div"
