@@ -1,80 +1,80 @@
-ECircuit. circuit ::= circuit id ":" (info)? "(" [module] ")" ;
-EModule. module ::= module id ":" (info)? "(" [port] stmt ")"
-    | extmodule id ":" (info)? "(" [port] ")" ;
+ECircuit. circuit ::= "circuit" id ":" (info)? "(" [module] ")" ;
+EModule. module ::= "module" id ":" (info)? "(" [port] stmt ")"
+    | "extmodule" id ":" (info)? "(" [port] ")" ;
 EPort. port ::= dir id ":" type (info)? ;
-EDir. dir ::= input | output ;
-EType. type ::= UInt ("<" int ">")?
-    | SInt ("<" int ">")?
-    | Fixed ("<" int ">")? ("<<" int ">>")?
-    | Clock
-    | Analog ("<" int ">")?
+EDir. dir ::= "input" | "output" ;
+EType. type ::= "UInt" ("<" int ">")?
+    | "SInt" ("<" int ">")?
+    | "Fixed" ("<" int ">")? ("<<" int ">>")?
+    | "Clock"
+    | "Analog" ("<" int ">")?
     | "{" [field] "}"
     | type "[" int "]" ;
-EField. field ::= (flip)? id ":" type ;
-EStmt. stmt ::= wire id ":" type (info)?
-    | reg id ":" type exp ("(" with ":" "{" reset => "(" exp, exp ")" "}" ")")? (info)?
-    | mem id ":" (info)? "(" 
-        data-type "=>" type
-        depth "=>" int
-        read-latency "=>" int
-        write-latency "=>" int
-        read-under-write "=>" ruw
-        [reader "=>" id]
-        [writer "=>" id]
-        [readwriter "=>" id] ")"
-    | inst id of id (info)?
-    | node id "=" exp (info)?
+EField. field ::= ("flip")? id ":" type ;
+EStmt. stmt ::= "wire" id ":" type (info)?
+    | "reg" id ":" type exp ("(" "with" ":" "{" "reset" => "(" exp, exp ")" "}" ")")? (info)?
+    | "mem" id ":" (info)? "(" 
+        "data-type" "=>" type
+        "depth" "=>" int
+        "read-latency" "=>" int
+        "write-latency" "=>" int
+        "read-under-write" "=>" ruw
+        ["reader" "=>" id]
+        ["writer" "=>" id]
+        ["readwriter" "=>" id] ")"
+    | "inst" id "of" id (info)?
+    | "node" id "=" exp (info)?
     | exp "<=" exp (info)?
     | exp "<-" exp (info)?
-    | exp is invalid (info)?
-    | attach "(" [exp] ")" (info)?
-    | when exp ":" (info)? stmt (else ":" stmt)?
-    | stop "(" exp, exp, int ")" ( ":" id)? (info)?
-    | printf "(" exp, exp, string, [exp] ")" ( ":" id)? (info)?
-    | skip (info)?
+    | exp "is" "invalid" (info)?
+    | "attach" "(" [exp] ")" (info)?
+    | "when" exp ":" (info)? stmt ("else" ":" stmt)?
+    | "stop" "(" exp, exp, int ")" ( ":" id)? (info)?
+    | "printf" "(" exp, exp, string, [exp] ")" ( ":" id)? (info)?
+    | "skip" (info)?
     | "(" [stmt] ")" ;
-ERuw. ruw ::= old | new | undefined ;
+ERuw. ruw ::= "old" | "new" | "undefined" ;
 EInfo. info ::= "@" "[" string "]" ;
-EExp. exp ::= UInt ("<" int ">")? "(" int ")"
-    | UInt ("<" int ">")? "(" string ")"
-    | SInt ("<" int ">")? "(" int ")"
-    | SInt ("<" int ">")? "(" string ")"
+EExp. exp ::= "UInt" ("<" int ">")? "(" int ")"
+    | "UInt" ("<" int ">")? "(" string ")"
+    | "SInt" ("<" int ">")? "(" int ")"
+    | "SInt" ("<" int ">")? "(" string ")"
     | id
     | exp.id
     | exp "[" int "]"
     | exp "[" exp "]"
-    | mux "(" exp, exp, exp ")"
-    | validif "(" exp, exp ")"
+    | "mux" "(" exp, exp, exp ")"
+    | "validif" "(" exp, exp ")"
     | primop "(" [exp] "," [int] ")" ;
-EPrimop. primop ::= add
-    | sub
-    | mul
-    | div
-    | mod
-    | lt
-    | leq
-    | gt
-    | geq
-    | eq
-    | neq
-    | pad
-    | asUInt
-    | asSInt
-    | asClock
-    | shl
-    | shr
-    | dshl
-    | dshr
-    | cvt
-    | neg
-    | not
-    | and
-    | or
-    | xor
-    | andr
-    | orr
-    | xorr
-    | cat
-    | bits
-    | head
-    | tail ;
+EPrimop. primop ::= "add"
+    | "sub"
+    | "mul"
+    | "div"
+    | "mod"
+    | "lt"
+    | "leq"
+    | "gt"
+    | "geq"
+    | "eq"
+    | "neq"
+    | "pad"
+    | "asUInt"
+    | "asSInt"
+    | "asClock"
+    | "shl"
+    | "shr"
+    | "dshl"
+    | "dshr"
+    | "cvt"
+    | "neg"
+    | "not"
+    | "and"
+    | "or"
+    | "xor"
+    | "andr"
+    | "orr"
+    | "xorr"
+    | "cat"
+    | "bits"
+    | "head"
+    | "tail" ;
