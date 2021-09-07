@@ -6,23 +6,58 @@
   },
   "tasks": [
     {
-      "label": "Build Grammar(C++)",
+      "label": "Build Grammar",
       "type": "shell",
       "command": "bnfc",
       "args": [
-        "--cpp",
+        "--${input:parserLang}",
         "-m",
-        "--outputdir=parser",
+        "--outputdir=parser-${input:parserLang}",
         "--name-space=FIRRTLFrontend",
         "grammar/FIRRTL.cf"
       ],
-
       "group": "build",
       "presentation": {
           "focus": true,
           "panel": "dedicated"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Check Grammar",
+      "type": "shell",
+      "command": "bnfc",
+      "args": [
+        "--check",
+        "grammar/FIRRTL.cf"
+      ],
+      "group": "build",
+      "presentation": {
+          "focus": true,
+          "panel": "dedicated"
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "type": "pickString",
+      "id": "parserLang",
+      "description": "Language for generated parser.",
+      "options": [
+        "cpp",
+        "c",
+        "haskell",
+        "ocaml",
+        "java"
+      ],
+      "default": "cpp"
+    },
+    {
+      "type": "promptString",
+      "id": "componentName",
+      "description": "Name your component.",
+      "default": "my-new-component"
     }
   ]
 }
