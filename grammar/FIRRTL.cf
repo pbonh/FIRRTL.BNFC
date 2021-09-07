@@ -1,44 +1,65 @@
-ECircuit. Circuit ::= "circuit" Id ":" (Info)? "(" [Module] ")" ;
-rules Module ::= "module" Id ":" (Info)? "(" [Port] Stmt ")"
-    | "extmodule" Id ":" (Info)? "(" [Port] ")" ;
-EPort. Port ::= Dir Id ":" Type (Info)? ;
+ECircuit. Circuit ::= "circuit" Id ":" Info "(" [Module] ")" ;
+(:[]).    [Module] ::= Module;
+(:).      [Module] ::= Module [Module];
+rules Module ::= "module" Id ":" Info "(" [Port] Stmt ")"
+    | "extmodule" Id ":" Info "(" [Port] ")" ;
+(:[]).    [Port] ::= Port;
+(:).      [Port] ::= Port [Port];
+EPort. Port ::= Dir Id ":" Type Info ;
 rules Dir ::= "input" | "output" ;
-rules Type ::= "UInt" ("<" Int ">")?
-    | "SInt" ("<" Int ">")?
-    | "Fixed" ("<" Int ">")? ("<<" Int ">>")?
+rules Type ::= "UInt" Intsize
+    | "SInt" Intsize
+    | "Fixed" Intsize Intsizefixed
     | "Clock"
-    | "Analog" ("<" Int ">")?
+    | "Analog" Intsize
     | "{" [Field] "}"
     | Type "[" Int "]" ;
-EField. Field ::= ("flip")? Id ":" Type ;
-rules Stmt ::= "wire" Id ":" Type (Info)?
-    | "reg" Id ":" Type Exp ("(" "with" ":" "{" "reset" "=>" "(" Exp "," Exp ")" "}" ")")? (Info)?
-    | "mem" Id ":" (Info)? "(" 
+(:[]).    [Field] ::= Field;
+(:).      [Field] ::= Field [Field];
+EField. Field ::= Flipliteral Id ":" Type ;
+rules Flipliteral ::= "flip" | "" ;
+rules Stmt ::= "wire" Id ":" Type Info
+    | "reg" Id ":" Type Exp Withreset Info
+    | "mem" Id ":" Info "(" 
         "data-type" "=>" Type
         "depth" "=>" Int
         "read-latency" "=>" Int
         "write-latency" "=>" Int
         "read-under-write" "=>" Ruw
-        ["reader" "=>" Id]
-        ["writer" "=>" Id]
-        ["readwriter" "=>" Id] ")"
-    | "inst" Id "of" Id (Info)?
-    | "node" Id "=" Exp (Info)?
-    | Exp "<=" Exp (Info)?
-    | Exp "<-" Exp (Info)?
-    | Exp "is" "invalid" (Info)?
-    | "attach" "(" [Exp] ")" (Info)?
-    | "when" Exp ":" (Info)? Stmt ("else" ":" Stmt)?
-    | "stop" "(" Exp "," Exp "," Int ")" ( ":" Id)? (Info)?
-    | "printf" "(" Exp "," Exp "," SString "," [Exp] ")" ( ":" Id)? (Info)?
-    | "skip" (Info)?
+        [Reader]
+        [Writer]
+        [Readwriter] ")"
+    | "inst" Id "of" Id Info
+    | "node" Id "=" Exp Info
+    | Exp "<=" Exp Info
+    | Exp "<-" Exp Info
+    | Exp "is" "invalid" Info
+    | "attach" "(" [Exp] ")" Info
+    | "when" Exp ":" Info Stmt Elsestmt
+    | "stop" "(" Exp "," Exp "," Int ")" Colonid Info
+    | "printf" "(" Exp "," Exp "," SString "," [Exp] ")" Colonid Info
+    | "skip" Info
     | "(" [Stmt] ")" ;
+(:[]).    [Reader] ::= Reader;
+(:).      [Reader] ::= Reader [Reader];
+(:[]).    [Writer] ::= Writer;
+(:).      [Writer] ::= Writer [Writer];
+(:[]).    [Readwriter] ::= Readwriter;
+(:).      [Readwriter] ::= Readwriter [Readwriter];
+(:[]).    [Stmt] ::= Stmt;
+(:).      [Stmt] ::= Stmt [Stmt];
+EReader. Reader ::= "reader" "=>" Id ;
+EWriter. Writer ::= "writer" "=>" Id ;
+EReadWriter. Readwriter ::= "readwriter" "=>" Id ;
+rules Colonid ::= ":" Id | "" ;
+rules Elsestmt ::= "else" ":" Stmt | "" ;
+rules Withreset ::= "(" "with" ":" "{" "reset" "=>" "(" Exp "," Exp ")" "}" ")" | "" ;
 rules Ruw ::= "old" | "new" | "undefined" ;
-EInfo. Info ::= "@" "[" SString "]" ;
-rules Exp ::= "UInt" ("<" Int ">")? "(" Int ")"
-    | "UInt" ("<" Int ">")? "(" SString ")"
-    | "SInt" ("<" Int ">")? "(" Int ")"
-    | "SInt" ("<" Int ">")? "(" SString ")"
+rules Info ::= "@" "[" SString "]" | "";
+rules Exp ::= "UInt" Intsize "(" Int ")"
+    | "UInt" Intsize "(" SString ")"
+    | "SInt" Intsize "(" Int ")"
+    | "SInt" Intsize "(" SString ")"
     | Id
     | Exp "." Id
     | Exp "[" Int "]"
@@ -46,6 +67,10 @@ rules Exp ::= "UInt" ("<" Int ">")? "(" Int ")"
     | "mux" "(" Exp "," Exp "," Exp ")"
     | "validif" "(" Exp "," Exp ")"
     | Primop "(" [Exp] "," [Int] ")" ;
+(:[]).    [Exp] ::= Exp;
+(:).      [Exp] ::= Exp [Exp];
+(:[]).    [Int] ::= Int;
+(:).      [Int] ::= Int [Int];
 rules Primop ::= "add"
     | "sub"
     | "mul"
@@ -80,4 +105,6 @@ rules Primop ::= "add"
     | "tail" ;
 Eid. Id ::= Ident;
 Estring. SString ::= String;
+rules Intsize ::= "<" Int ">" | "";
+rules Intsizefixed ::= "<<" Int ">>" | "";
 Eint. Int ::= Integer;
